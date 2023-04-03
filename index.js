@@ -1,13 +1,14 @@
 const http = require('http');
 
 const PORT = 8081;
+
 // Обробник запитів. Приймає:
 // - request -запит користувача, звідси читаєм,
 // - response -наша відповідь: баді, хедери
 const requstHandler = (request, response) => {
 //  response.writeHead(200, {'Content-type': 'text/html'});
 //  response.end('<h1>GoIt</h1>');
- response.writeHead(200, {'Content-type': 'text/json'});
+ response.writeHead(404, {'Content-type': 'text/json'});
  response.end(JSON.stringify({a:1,b:[]}))
 }
 
