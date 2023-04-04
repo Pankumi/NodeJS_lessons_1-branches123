@@ -1,23 +1,48 @@
-const http = require('http');
+// NodeJS Модуль 1 заняття 2
+
+const http = require("http");
 
 const PORT = 8081;
 
-// Обробник запитів. Приймає:
-// - request -запит користувача, звідси читаєм,
-// - response -наша відповідь: баді, хедери
-const requstHandler = (request, response) => {
-//  response.writeHead(200, {'Content-type': 'text/html'});
-//  response.end('<h1>GoIt</h1>');
- response.writeHead(404, {'Content-type': 'text/json'});
- response.end(JSON.stringify({a:1,b:[]}))
-}
+// // Обробник запитів. Приймає:
+// // - request -запит користувача, звідси читаєм,
+// // - response -наша відповідь: баді, хедери
+
+// // Варіант 1 різна видача по запиту з різним url (відео 59.20):
+// const requstHandler = (request, response) => {
+//   if ( request.url.indexOf('/home') >= 0 ){
+//     response.writeHead(200, {'Content-type': 'text/json'});
+//     return response.end( JSON.stringify({"url":"homepage"}) );
+//   }
+//   response.writeHead(200, { "Content-type": "text/json" });
+//   return response.end( JSON.stringify({"url":"other"}) );
+// };
+
+// // Варіант 2 на старті синхронно читаю файл:
+// const fs = require("fs");
+// const manifest = fs.readFileSync('./package.json', 'utf8' );
+
+// const requstHandler = (request, response) => {
+//   response.writeHead(200, { "Content-type": "text/json" });
+//   return response.end(manifest);
+// };
+
+// // Варіант 3 асинхронно читаю файл при кожному зверненні кл:
+const fs = require("fs").promises;
+const requstHandler = async (request, response) => {
+  const manifest = await fs.readFile('./package.json', 'utf8' );
+  response.writeHead(200, { "Content-type": "text/json" });
+  return response.end(manifest);
+};
 
 const server = http.createServer(requstHandler);
-
 // Треба запустити сервер так щоб він зарезервував якийсь порт ОС і слухав на ньому запити
-server.listen(PORT, (err)=>{
+server.listen(PORT, (err) => {
   if (err) {
-    console.error('Error at aserver launch >>' ,err);
+    console.error("Error at server launch >>", err);
   }
-  console.log('Servar works at port', PORT);
+  console.log("Server works at port", PORT);
 });
+
+
+1:11
