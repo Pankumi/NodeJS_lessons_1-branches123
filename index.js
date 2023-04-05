@@ -1,4 +1,7 @@
 // NodeJS Модуль 1 заняття 2
+// ВІДЕО:
+// загальне пояснення 0:59:20-1:11:0
+// express в файлі server.js
 
 const http = require("http");
 
@@ -8,7 +11,7 @@ const PORT = 8081;
 // // - request -запит користувача, звідси читаєм,
 // // - response -наша відповідь: баді, хедери
 
-// // Варіант 1 різна видача по запиту з різним url (відео 59.20):
+// // Варіант 1 різна видача по запиту з різним url:
 // const requstHandler = (request, response) => {
 //   if ( request.url.indexOf('/home') >= 0 ){
 //     response.writeHead(200, {'Content-type': 'text/json'});
