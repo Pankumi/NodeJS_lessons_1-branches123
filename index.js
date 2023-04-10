@@ -1,51 +1,19 @@
-// NodeJS Модуль 1 заняття 2
+// Модуль 1 доп. заняття "Дорога 40 nodeJS blgroup 2
 // ВІДЕО:
-// загальне пояснення 0:59:20-1:11:0
-// express в файлі server.js
 
-const http = require("http");
+const express = require("express"); //підключаєм express
+const router = require('./routes/router');
+const app = express(); // ініціалізуєм додаток (записуєм express в app)
+const PORT = 3600; // порт на якому запускаєм додаток
 
-const PORT = 8081;
+app.use(router); // метод .use() використовується для підключення middleware
+//middleware - це проміжний обробник запиту
 
-// // Обробник запитів. Приймає:
-// // - request -запит користувача, звідси читаєм,
-// // - response -наша відповідь: баді, хедери
+app.listen(PORT, () => console.log("Server works at port >>", PORT)); // метод .listen для запуску додатка. Аргументи: 1 порт на якому буде працювати додаток, 2 колбек який виконається після запуску додатка
 
-// // Варіант 1 різна видача по запиту з різним url:
-// const requstHandler = (request, response) => {
-//   if ( request.url.indexOf('/home') >= 0 ){
-//     response.writeHead(200, {'Content-type': 'text/json'});
-//     return response.end( JSON.stringify({"url":"homepage"}) );
-//   }
-//   response.writeHead(200, { "Content-type": "text/json" });
-//   return response.end( JSON.stringify({"url":"other"}) );
-// };
+// Запит: http://localhost:3600/home
+// http -протокол
+// localhost -місцезнаходження
+// 3500 -порт
+// home -ендпоінт
 
-// // Варіант 2 на старті синхронно читаю файл:
-// const fs = require("fs");
-// const manifest = fs.readFileSync('./package.json', 'utf8' );
-
-// const requstHandler = (request, response) => {
-//   response.writeHead(200, { "Content-type": "text/json" });
-//   return response.end(manifest);
-// };
-
-// // Варіант 3 асинхронно читаю файл при кожному зверненні кл:
-const fs = require("fs").promises;
-const requstHandler = async (request, response) => {
-  const manifest = await fs.readFile('./package.json', 'utf8' );
-  response.writeHead(200, { "Content-type": "text/json" });
-  return response.end(manifest);
-};
-
-const server = http.createServer(requstHandler);
-// Треба запустити сервер так щоб він зарезервував якийсь порт ОС і слухав на ньому запити
-server.listen(PORT, (err) => {
-  if (err) {
-    console.error("Error at server launch >>", err);
-  }
-  console.log("Server works at port", PORT);
-});
-
-
-1:11
