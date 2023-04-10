@@ -20,7 +20,8 @@
   "homepage": "https://github.com/Pankumi/node_1#readme",
   "dependencies": {
     "calc-js": "^2.0.7",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
