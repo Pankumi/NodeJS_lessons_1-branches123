@@ -15,7 +15,7 @@
 const morgan = require("morgan"); // зовнішній middleware щоб логати запити
 
 const express = require("express"); //підключаєм express
-const app = express(); // ініціалізуєм express додаток (записуєм express в app)
+const app = express(); // ініціалізуєм додаток (записуєм express в app)
 
 const PORT = 3500; // порт на якому запускаєм додаток
 
@@ -41,10 +41,20 @@ app.use(express.static("./public")); // в express вбудований middlewa
 
 app.use(morgan('tiny')); // middleware для логування
 
-app.get("/home", (req, res) => {
+// Щоб додаток слухав http запити по методу get/ post/ delete/ ...:
+app.get("/home", (err, req, res, next) => {
   res.send("get request");
-}); // "get" - метод, "/home" - url, "req" - request запит користувача, звідси читаєм, "res" - response -наша відповідь: баді, хедери
-// щоб визначити get запит для всіх url видаляєм 1 параметр: app.get((req, res)=>{...
+}); // "get" - метод, приймає:
+// 1) "/home" - ендпоінт (url який ми чекаємо),
+// 2) колбек ф яку тереба виконати: "req" 
+// Колбек ф приймає: req - request запит користувача, звідси читаєм, "res" - response -наша відповідь: баді, хедери
+// щоб визначити get запит для всіх url видаляєм 1й параметр: app.get((req, res)=>{...
+
+// Запит: http://localhost:3500/home
+// http -протокол
+// localhost -місцезнаходження
+// 3500 -порт
+// home -ендпоінт
 
 app.post("/home", (req, res) => {
   // res.send("post request");
@@ -60,7 +70,7 @@ app.listen(PORT, (err) => {
     console.error("Error at server launch >>", err);
   }
   console.log("Server works at port >>", PORT);
-});
+}); // метод .listen для запуску додатка. Аргументи: 1 порт на якому буде працювати додаток, 2 колбек який виконається після запуску додатка
 
 
 
