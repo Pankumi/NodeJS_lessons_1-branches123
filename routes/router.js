@@ -14,12 +14,25 @@ const userPath = path.join(__dirname, '/../db/users.json');
 // // Колбек ф приймає: req - request запит користувача, звідси читаєм, "res" - response -наша відповідь: баді, хедери
 ////  щоб визначити get запит для всіх url видаляєм 1й параметр: app.get((req, res)=>{...
 
-router.get("/user", async (req, res) => {
+const getUsersList = async() => {
+  const myJson = JSON.parse(await fs.readFile(userPath));
+  console.log('log 1');
+  return myJson
+};
+
+router.get("/user", async (req, res, next) => {
   try {
-    const users = JSON.parse(await fs.readFile(userPath));
+    const users = await getUsersList();
+    console.log('log 2');
     console.log('users >>', users);
   } catch (error) {}
 });
+
+router.get( (req, res) => {
+  console.log('log 3');
+});
+
+
 
 module.exports = router; // експортую router
 
