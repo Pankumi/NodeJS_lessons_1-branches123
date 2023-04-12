@@ -5,6 +5,8 @@ const path = require("path");
 const router = Router(); // створюю router
 const userPath = path.join(__dirname, '/../db/users.json');
 
+const getUsersList = async() => JSON.parse( await fs.readFile(userPath));
+
 // // Щоб додаток слухав http запити по методу get/ post/ delete/ ...:
 // router.get("/home", (req, res, next) => {
 //   res.json({ message: "Hello friend!" });
@@ -14,25 +16,35 @@ const userPath = path.join(__dirname, '/../db/users.json');
 // // Колбек ф приймає: req - request запит користувача, звідси читаєм, "res" - response -наша відповідь: баді, хедери
 ////  щоб визначити get запит для всіх url видаляєм 1й параметр: app.get((req, res)=>{...
 
-const getUsersList = async() => {
-  const myJson = JSON.parse(await fs.readFile(userPath));
-  console.log('log 1');
-  return myJson
-};
+// статус коди 100ті - шнформ. 200ті - успіх 300ті редірект 400ті - помилка кл. 500ті - помилки серверу
 
 router.get("/user", async (req, res, next) => {
   try {
     const users = await getUsersList();
-    console.log('log 2');
     console.log('users >>', users);
-  } catch (error) {}
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(500).json({Error: error.message})
+  }
+  next();
 });
 
-router.get( (req, res) => {
-  console.log('log 3');
-});
+router.get("/user/:id", async (req, res, next)=>{
+  try {
+    const id = req.params.id;
+    const users = await getUsersList();
+    const user = users.find((user)=> Іекштп(user.id) === id);
 
+    if(!user) {
+      res.status(404).json({message: 'User was not found'})
+    }
+    res.status(200).json(user);
 
+  } catch (error) {
+    res.status(500).json({Error: error.message})
+  }
+}) // /:id - квері параметр, при запиті по ендпоінту все що буде після слешу вважається id-шніком. В об'єкті request.params буде створено нов поле id:"значення яке ми передаємо"
 
 module.exports = router; // експортую router
+
 
