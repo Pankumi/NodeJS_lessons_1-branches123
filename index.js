@@ -7,11 +7,7 @@ const router = require("./routes/router");
 const app = express(); // ініціалізуєм додаток (записуєм express в app)
 const PORT = 3700; // порт на якому запускаєм додаток
 
-app.use((req, res, next) => {
-  console.log("log 0");
-  next();
-});
-
+app.use(express.json()); // парсить вхідні данні - замість Json отримуємо JS
 app.use(router); // метод .use() використовується для підключення middleware
 //middleware - це проміжний обробник запиту
 
